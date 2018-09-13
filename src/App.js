@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
 function Key(props) {
@@ -16,51 +15,82 @@ class Board extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            value: null,
-            operator: null,
+            keys: [],
         };
     }
 
-    inputNumber(number) {
+    renderKey(digit, label) {
+        return (
+            <Key onClick={() => this.handleClick(digit)} value={digit} label={label}/> )
+    }
 
+    handleClick(digit) {
+        let temp = this.state.keys;
+        let result = 0;
+
+        if (digit === "equal" && temp.length > 0 ) {
+            result = eval(temp.join(''));
+            this.setState({keys: result})
+        }
+        else if (digit === "C") {
+            temp.pop();
+            this.setState({keys: temp});
+            }
+         else   {
+            temp.push(digit);
+            this.setState({keys: temp});
+        }
     }
 
     render() {
+        const status = this.state.keys;
+
         return (
-            <div className="Game">
-                <Board data={this.state.operations} />
-                <Keys>
-                    <Key onClick={this.handleClick} label="C" value="clear" />
-                    <Key onClick={this.handleClick} label="7" value="7" />
-                    <Key onClick={this.handleClick} label="4" value="4" />
-                    <Key onClick={this.handleClick} label="1" value="1" />
-                    <Key onClick={this.handleClick} label="0" value="0" />
-
-                    <Key onClick={this.handleClick} label="/" value="/" />
-                    <Key onClick={this.handleClick} label="8" value="8" />
-                    <Key onClick={this.handleClick} label="5" value="5" />
-                    <Key onClick={this.handleClick} label="2" value="2" />
-                    <Key onClick={this.handleClick} label="." value="." />
-
-                    <Key onClick={this.handleClick} label="x" value="*" />
-                    <Key onClick={this.handleClick} label="9" value="9" />
-                    <Key onClick={this.handleClick} label="6" value="6" />
-                    <Key onClick={this.handleClick} label="3" value="3" />
-                    <Key label="" value="null" />
-
-                    <Key onClick={this.handleClick} label="-" value="-" />
-                    <Key onClick={this.handleClick} label="+" size="2" value="+" />
-                    <Key onClick={this.handleClick} label="=" size="2" value="equal" />
-                </Keys>
+            <div>
+                <div className="status">{status}</div>
+                <div className="board-row">
+                    {this.renderKey(7, "7")}
+                    {this.renderKey(4, "4")}
+                    {this.renderKey(1, "1")}
+                    {this.renderKey(".", ".")}
+                    {this.renderKey("C", "C")}
+                </div>
+                <div className="board-row">
+                    {this.renderKey(8, "8")}
+                    {this.renderKey(5, "5")}
+                    {this.renderKey(2, "2")}
+                    {this.renderKey("*", "x")}
+                    {this.renderKey("/", "/")}
+                </div>
+                <div className="board-row">
+                    {this.renderKey(9, "9")}
+                    {this.renderKey(6, "6")}
+                    {this.renderKey(3, "3")}
+                    {this.renderKey("+", "+")}
+                    {this.renderKey("-", "-")}
+                </div>
+                <div className="board-row">
+                    {this.renderKey(0, "0")}
+                    {this.renderKey("equal", "=")}
+                </div>
             </div>
         );
     }
 }
 
 class Game extends React.Component {
-    constructor() {
-        super()
-        this.state = { operations: [] }
+    render() {
+        return (
+            <div className="game">
+                <div className="game-board">
+                    <Board />
+                </div>
+                <div className="game-info">
+                    <div>{/* status */}</div>
+                    <ol>{/* TODO */}</ol>
+                </div>
+            </div>
+        );
     }
 }
 
