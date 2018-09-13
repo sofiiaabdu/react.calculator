@@ -5,49 +5,70 @@ function Key(props) {
     return (
         <button className="key"
                 onClick={props.onClick}
-                data-value={props.value}>
+                data={props.value}>
             {props.label}
         </button>
     );
 }
 
+class Display extends React.Component {
+    render() {
+        const result = Array.prototype.join.call(this.props.data, "");
+        return <div className="Display"> {result} </div>
+    }
+}
+
+
 class Board extends React.Component {
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = {
             keys: [],
         };
     }
+
+    calculateResult = () => {
+        let result = this.state.keys.join('');
+
+        if (result) {
+            result = eval(result);
+            this.setState({
+                keys: result
+            });
+        }
+    }
+
+    handleClick(digit) {
+        let temp = this.state.keys;
+        switch (digit) {
+            case "CE":
+                temp.pop();
+                this.setState({keys: temp});
+                break
+            case "C":
+                temp = [];
+                this.setState({keys: temp});
+                break
+            case "equal":
+                this.calculateResult();
+                break
+            default:
+                temp.push(digit);
+                this.setState({keys: temp});
+                break;
+        }
+    }
+
 
     renderKey(digit, label) {
         return (
             <Key onClick={() => this.handleClick(digit)} value={digit} label={label}/> )
     }
 
-    handleClick(digit) {
-        let temp = this.state.keys;
-        let result = 0;
-
-        if (digit === "equal" && temp.length > 0 ) {
-            result = eval(temp.join(''));
-            this.setState({keys: result})
-        }
-        else if (digit === "C") {
-            temp.pop();
-            this.setState({keys: temp});
-            }
-         else   {
-            temp.push(digit);
-            this.setState({keys: temp});
-        }
-    }
-
     render() {
-        const status = this.state.keys;
-
         return (
             <div>
-                <div className="status">{status}</div>
+                <Display data={this.state.keys} />
                 <div className="board-row">
                     {this.renderKey(7, "7")}
                     {this.renderKey(4, "4")}
@@ -72,26 +93,11 @@ class Board extends React.Component {
                 <div className="board-row">
                     {this.renderKey(0, "0")}
                     {this.renderKey("equal", "=")}
+                    {this.renderKey("CE", "CE")}
                 </div>
             </div>
         );
     }
 }
 
-class Game extends React.Component {
-    render() {
-        return (
-            <div className="game">
-                <div className="game-board">
-                    <Board />
-                </div>
-                <div className="game-info">
-                    <div>{/* status */}</div>
-                    <ol>{/* TODO */}</ol>
-                </div>
-            </div>
-        );
-    }
-}
-
-export default Game;
+export default Board;
