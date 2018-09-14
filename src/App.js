@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import update from 'immutability-helper';
+import Display from './Display';
 import './App.css';
 
 function Key(props) {
@@ -11,24 +13,16 @@ function Key(props) {
     );
 }
 
-class Display extends React.Component {
-    render() {
-        const result = Array.prototype.join.call(this.props.data, "");
-        return <div className="Display"> {result} </div>
-    }
-}
-
-
 class Board extends React.Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
-            keys: [],
+            keys: "",
         };
     }
 
     calculateResult = () => {
-        let result = this.state.keys.join('');
+        let result = this.state.keys;
 
         if (result) {
             result = eval(result);
@@ -36,29 +30,34 @@ class Board extends React.Component {
                 keys: result
             });
         }
-    }
+    };
 
     handleClick(digit) {
         let temp = this.state.keys;
         switch (digit) {
             case "CE":
-                temp.pop();
+                if (temp.length > 0) {
+                    temp = temp.slice(0, -1);
+                }
                 this.setState({keys: temp});
-                break
+                break;
             case "C":
-                temp = [];
-                this.setState({keys: temp});
-                break
+                this.setState({keys: ""});
+                break;
             case "equal":
                 this.calculateResult();
-                break
+                break;
             default:
-                temp.push(digit);
-                this.setState({keys: temp});
+                /*temp = update(this.state.keys, {
+                    $push: [digit],
+                });*/
+                temp = temp + digit.toString();
+                this.setState({
+                    keys: temp,
+                });
                 break;
         }
     }
-
 
     renderKey(digit, label) {
         return (
@@ -67,7 +66,7 @@ class Board extends React.Component {
 
     render() {
         return (
-            <div>
+            <div className="board">
                 <Display data={this.state.keys} />
                 <div className="board-row">
                     {this.renderKey(7, "7")}
@@ -89,11 +88,14 @@ class Board extends React.Component {
                     {this.renderKey(3, "3")}
                     {this.renderKey("+", "+")}
                     {this.renderKey("-", "-")}
+
                 </div>
                 <div className="board-row">
+                    {this.renderKey(null)}
                     {this.renderKey(0, "0")}
-                    {this.renderKey("equal", "=")}
+                    {this.renderKey(null)}
                     {this.renderKey("CE", "CE")}
+                    {this.renderKey("equal", "=")}
                 </div>
             </div>
         );
