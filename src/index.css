@@ -1,7 +1,7 @@
 .Display {
   height: 45px;
-  color: white;
-  background: darkslategrey;
+  color: black;
+  background: gainsboro;
   line-height: 60px;
   font-size: 25px;
   flex: 1;
@@ -20,4 +20,41 @@ body {
 
 .board {
   width: 237px;
+}
+
+.mass {
+  margin: 30px;
+  font-size: 18px;
+  height: 35px;
+  width: 120px;
+  border-radius: 10px;
+  border: none;
+  background: burlywood;
+  cursor: pointer;
+}
+
+form {
+  border: solid;
+  background-color: beige;
+}
+
+.form-group {
+  margin:5px auto;
+  max-width: 400px;
+  padding: 10px 6px 5px 10px;
+  font: 15px "Lucida Sans Unicode", "Lucida Grande", sans-serif;
+}
+
+.form-group input[type=number] {
+  box-sizing: border-box;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  border:1px solid #BEBEBE;
+  padding: 7px;
+  margin:0px;
+  -webkit-transition: all 0.30s ease-in-out;
+  -moz-transition: all 0.30s ease-in-out;
+  -ms-transition: all 0.30s ease-in-out;
+  -o-transition: all 0.30s ease-in-out;
+  outline: none;
 }

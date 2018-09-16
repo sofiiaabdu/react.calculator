@@ -18,7 +18,7 @@ class Form extends React.Component {
             <div className="row">
                 <div className="col-xs-12">
                     <input className="form-control" id="weight" type="number"  value={weight} onChange={ weightEvent} />
-                    <label className="control-label" htmlFor="weight">kg</label>
+                    <label className="label" htmlFor="weight">kg</label>
                 </div>
             </div>
         </div>
@@ -28,12 +28,12 @@ class Form extends React.Component {
         <div className="row">
             <div className="col-xs-6">
                 <input className="form-control" id="height" type="number"  value={height} onChange={heightEvent} />
-                <label className="control-label" htmlFor="height">cm</label>
+                <label className="label" htmlFor="height">cm</label>
             </div>
         </div>
         </div>
         <div>
-            <button>"Calculate"</button>
+            <button className="mass">Calculate</button>
         </div>
         </form>
         )

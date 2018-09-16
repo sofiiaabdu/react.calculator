@@ -29,9 +29,11 @@ class MassIndex extends React.Component {
 
         if (index <= 18.5) {
             temp = 'Underweight';
-        } else if (index <= 24.9) {
+        } else if (index > 18.5 && index <= 25) {
             temp = 'Normal weight';
-        } else if (index >= 30) {
+        } else if (index > 25 && index <= 30) {
+            temp = 'Obese';
+        } else if (index > 30) {
             temp = 'Overweight';
         } else {
             temp = "Invalid data";
