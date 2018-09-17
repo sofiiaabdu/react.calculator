@@ -7,12 +7,10 @@ class MassIndex extends React.Component {
         this.state = {
             height: '',
             weight: '',
-            result: "",
         };
 
         this.handleHeight = this.handleHeight.bind(this);
         this.handleWeight = this.handleWeight.bind(this);
-        this.handleResult = this.handleResult.bind(this);
         this.calculateIndex = this.calculateIndex.bind(this);
     }
 
@@ -36,7 +34,7 @@ class MassIndex extends React.Component {
         } else if (index > 30) {
             temp = 'Overweight';
         } else {
-            temp = "Invalid data";
+            temp = "Please, enter: ";
         }
         return temp;
     }
@@ -53,21 +51,16 @@ class MassIndex extends React.Component {
         });
     }
 
-    handleResult = ()  => {
-        const index = this.calculateIndex();
-        let result = this.getResults(index);
-        this.setState({
-            result: result
-        });
-    }
-
     render() {
+        const index = this.calculateIndex();
+        const result = this.getResults(index);
+
         return (
             <div className="board">
                 <h3>Body Mass Index Calculator</h3>
                 <div className="row">
                     <div className="col-sm-6">
-                        <Form data={this.state.result} event={this.handleResult}
+                        <Form data={result}
                               weigth={this.state.weight} height={this.state.height}
                               weightEvent={this.handleWeight} heightEvent={this.handleHeight}
                         />
@@ -76,7 +69,6 @@ class MassIndex extends React.Component {
             </div>
         );
     }
-
 }
 
 export default MassIndex;
